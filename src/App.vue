@@ -1,19 +1,11 @@
 <template>
   <v-app>
-    <v-main> </v-main>
+    <v-main>
+      <menu-component></menu-component>
+    </v-main>
   </v-app>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "App",
-
-  data() {
-    return {
-      //
-    };
-  },
-});
+<script setup lang="ts">
+import MenuComponent from "./shared/components/MenuComponent.vue";
 </script>
