@@ -1,5 +1,11 @@
 module.exports = {
   root: true,
+  globals: {
+    defineProps: "readonly",
+    ref: "readonly",
+    computed: "readonly",
+    watch: "readonly",
+  },
   env: {
     node: true,
   },
