@@ -10,14 +10,20 @@ export const useCoin = defineStore("coinGecko", () => {
   const latestPrices = ref<{ x: number; y: number }[]>([]);
 
   const updateCoinInfo = async (id: string) => {
-    console.log("cha,ada");
-
-    const response = await coinApi.get(`/${id}/market_chart`, { params });
-    console.log(response);
-    updatePrices(response.data.prices);
+    try {
+      const response = await coinApi.get(`/${id}/market_chart`, { params });
+      updatePrices(response.data.prices);
+    } catch (error) {
+      console.error("esse id não existe");
+      updatePrices([]);
+    }
   };
 
   const updatePrices = (prices: [number, number][]) => {
+    if (prices.length === 0) {
+      latestPrices.value = [];
+      return;
+    }
     latestPrices.value = prices.map((v) => ({
       x: v[0],
       y: v[1],
