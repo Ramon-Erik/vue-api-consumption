@@ -56,20 +56,20 @@ const series = ref([
   },
 ]);
 
-// watch(
-//   () => props.selectedCoin,
-//   async (newCoin) => {
-//     if (!newCoin) return;
+watch(
+  () => props.selectedCoin,
+  async (newCoin) => {
+    if (!newCoin) return;
 
-//     await store.updateCoinInfo(newCoin);
+    await store.updateCoinInfo(newCoin);
 
-//     series.value = [
-//       {
-//         name: "Preço BRL",
-//         data: store.latestPrices,
-//       },
-//     ];
-//   },
-//   { immediate: true }
-// );
+    series.value = [
+      {
+        name: "Preço BRL",
+        data: store.latestPrices,
+      },
+    ];
+  },
+  { immediate: true }
+);
 </script>
