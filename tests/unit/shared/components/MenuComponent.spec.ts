@@ -20,12 +20,15 @@ describe("Menu Component", () => {
       },
     });
   };
-  it("should render properly", async () => {
+  it("should render properly", () => {
     const wrapper = mountComponent();
 
-    await wrapper.vm.$nextTick();
-    console.log(wrapper.html());
-    console.log(wrapper.text());
     expect(wrapper.text()).toContain("Cosmobit");
+  });
+  it("should render six list items", () => {
+    const wrapper = mountComponent();
+    const listItems = wrapper.findAll(".v-list-item");
+
+    expect(listItems.length).toBe(6);
   });
 });
