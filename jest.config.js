@@ -5,11 +5,4 @@ module.exports = {
   },
   transformIgnorePatterns: ["node_modules/(?!(vuetify|@mdi|@vueuse))"],
   moduleFileExtensions: ["js", "ts", "json", "vue", "mjs"],
-  globals: {
-    "vue-jest": {
-      compilerOptions: {
-        isCustomElement: (tag) => tag.startsWith("v-"),
-      },
-    },
-  },
 };
