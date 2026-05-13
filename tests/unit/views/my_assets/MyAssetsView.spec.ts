@@ -16,6 +16,10 @@ describe("My Assets View", () => {
     return mount(MyAssetsView, {
       global: {
         plugins: [vuetify],
+        stubs: {
+          PriceGraphComponent: true,
+        },
+        components: (components as any).components,
       },
     });
   };
@@ -24,5 +28,17 @@ describe("My Assets View", () => {
 
     expect(wrapper.exists()).toBe(true);
     expect(wrapper.isVisible()).toBe(true);
+  });
+
+  it("should render a select with eight options", () => {
+    const wrapper = mountComponent();
+
+    const select = wrapper.find("select");
+    const options = wrapper.findAll("option");
+
+    expect(select.exists()).toBe(true);
+    expect(select.isVisible()).toBe(false);
+
+    expect(options.length).toBe(7);
   });
 });
