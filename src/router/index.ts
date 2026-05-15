@@ -1,12 +1,12 @@
-import MyAssetsView from "@/views/my_assets/MyAssetsView.vue";
+import DashboardView from "@/views/my_assets/DashboardView.vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/my-assets",
-    component: MyAssetsView,
+    path: "/dashboard",
+    component: DashboardView,
   },
-  { path: "/:pathMatch(.*)*", name: "NotFound", redirect: "/my-assets" },
+  { path: "/:pathMatch(.*)*", name: "NotFound", redirect: "/dashboard" },
 ];
 
 const router = createRouter({

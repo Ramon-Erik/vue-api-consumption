@@ -1,5 +1,5 @@
 <template>
   <header class="pa-3 border-b-md">
-    <h2>My Assets</h2>
+    <h2>Dashboard</h2>
   </header>
 </template>

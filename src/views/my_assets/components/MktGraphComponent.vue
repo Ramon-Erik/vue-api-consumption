@@ -2,7 +2,8 @@
   <v-container class="w-100 d-flex justify-center align-center">
     <loading-component v-if="store.loading"></loading-component>
     <no-currency-selected-component
-      v-else-if="store.latestPrices.length === 0"
+      v-else-if="store.latestMktPrices.length === 0"
+      svgPath="M15,4A8,8 0 0,1 23,12A8,8 0 0,1 15,20A8,8 0 0,1 7,12A8,8 0 0,1 15,4M15,18A6,6 0 0,0 21,12A6,6 0 0,0 15,6A6,6 0 0,0 9,12A6,6 0 0,0 15,18M3,12C3,14.61 4.67,16.83 7,17.65V19.74C3.55,18.85 1,15.73 1,12C1,8.27 3.55,5.15 7,4.26V6.35C4.67,7.17 3,9.39 3,12Z"
     ></no-currency-selected-component>
     <apexchart
       v-else
@@ -13,28 +14,26 @@
     ></apexchart>
   </v-container>
 </template>
-
 <script setup lang="ts">
-import { useCoin } from "@/stores/CoinStore";
-import { ref, watch } from "vue";
 import NoCurrencySelectedComponent from "./NoCurrencySelectedComponent.vue";
 import LoadingComponent from "./LoadingComponent.vue";
+import { useCoin } from "@/stores/CoinStore";
+import { ref, watch } from "vue";
 
 const store = useCoin();
 
 const options = ref({
   chart: {
-    id: "prices",
+    id: "market-cap",
     toolbar: { show: true },
+    foreColor: "#373d3f",
   },
+  colors: ["#7c4dff"],
   xaxis: {
     type: "datetime",
     labels: {
       show: true,
       format: "dd/MM HH:mm",
-    },
-    axisTicks: {
-      show: true,
     },
     tickAmount: 6,
   },
@@ -50,7 +49,18 @@ const options = ref({
   },
   stroke: {
     curve: "smooth",
-    width: 3,
+    width: 2,
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.7,
+      opacityTo: 0.3,
+    },
+  },
+  dataLabels: {
+    enabled: false,
   },
   tooltip: {
     x: { format: "dd MMM yyyy HH:mm" },
@@ -59,22 +69,19 @@ const options = ref({
 
 const series = ref([
   {
-    name: "Preço BRL",
+    name: "Market Cap BRL",
     data: [] as { x: number; y: number }[],
   },
 ]);
 
 watch(
-  () => store.latestPrices,
+  () => store.latestMktPrices,
   async (newCoin) => {
-    console.log(newCoin);
-
     if (newCoin.length === 0) return;
-
     series.value = [
       {
-        name: "Preço BRL",
-        data: store.latestPrices,
+        name: "Market Cap BRL",
+        data: store.latestMktPrices, // Usando a variável de Market Cap da Store
       },
     ];
   },
