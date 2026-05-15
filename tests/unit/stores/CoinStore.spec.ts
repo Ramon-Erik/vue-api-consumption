@@ -52,4 +52,18 @@ describe("useCoin", () => {
     expect(store.latestPrices.length).toBe(0);
     expect(mockedCoinApi.get).toBeCalledTimes(1);
   });
+
+  it("latest value should start empty", () => {
+    const store = useCoin();
+    expect(store.latestValues).toStrictEqual({
+      prices: {
+        time: "",
+        price: "",
+      },
+      mkt: {
+        time: "",
+        price: "",
+      },
+    });
+  });
 });

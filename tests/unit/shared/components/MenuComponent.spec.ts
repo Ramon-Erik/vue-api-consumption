@@ -23,7 +23,7 @@ describe("Menu Component", () => {
   it("should render properly", () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.text()).toContain("Cosmobit");
+    expect(wrapper.text()).toContain("Cripto");
   });
   it("should render six list items", () => {
     const wrapper = mountComponent();
