@@ -15,10 +15,16 @@
   <v-container class="d-flex flex-wrap ga-8">
     <v-card class="w-100 ma-0" style="max-width: 450px">
       <v-card-title>Preço (BRL)</v-card-title>
+      <v-card-subtitle>
+        Valor unitário atual para compra e venda da moeda.
+      </v-card-subtitle>
       <price-graph-component></price-graph-component>
     </v-card>
     <v-card class="w-100 ma-0" style="max-width: 450px">
       <v-card-title class="text-break">Capitalização de Mercado</v-card-title>
+      <v-card-subtitle>
+        Tamanho total da rede (Preço × Moedas em circulação).
+      </v-card-subtitle>
       <mkt-graph-component></mkt-graph-component>
     </v-card>
   </v-container>
@@ -45,8 +51,6 @@ const items = [
 const selectedCoin = ref<string | undefined>(undefined);
 
 const changeValue = async () => {
-  console.log("mudou no comp", selectedCoin.value);
-
   if (selectedCoin.value && selectedCoin.value.trim()) {
     await store.updateCoinInfo(selectedCoin.value);
   }

@@ -15,12 +15,21 @@ export const useCoin = defineStore("coinGecko", () => {
     days: 5,
   };
   const loading = ref(false);
+  const latestValues = ref({
+    prices: {
+      time: "",
+      price: "",
+    },
+    mkt: {
+      time: "",
+      price: "",
+    },
+  });
   const latestPrices = ref<{ x: number; y: number }[]>([]);
   const latestMktPrices = ref<{ x: number; y: number }[]>([]);
   const latestVolumePrices = ref<{ x: number; y: number }[]>([]);
 
   const updateCoinInfo = async (id: string) => {
-    console.log(id);
     loading.value = true;
     try {
       const response = await coinApi.get(`/${id}/market_chart`, { params });
@@ -49,7 +58,30 @@ export const useCoin = defineStore("coinGecko", () => {
       return;
     }
 
-    console.log(response);
+    const lastPrice = response.prices[response.prices.length - 1];
+    const lastMkt = response.market_caps[response.market_caps.length - 1];
+
+    const currencyOpts = {
+      style: "currency",
+      currency: "BRL",
+    };
+
+    if (lastMkt && lastPrice) {
+      latestValues.value = {
+        prices: {
+          time: new Date(lastPrice[0]).toLocaleString("pt-BR"),
+          price: Intl.NumberFormat("pt-BR", currencyOpts).format(lastPrice[1]),
+        },
+        mkt: {
+          time: new Date(lastMkt[0]).toLocaleString("pt-BR"),
+          price: Intl.NumberFormat("pt-BR", {
+            ...currencyOpts,
+            notation: "compact",
+            maximumFractionDigits: 2,
+          }).format(lastMkt[1]),
+        },
+      };
+    }
 
     latestPrices.value = response.prices.map((v) => ({
       x: v[0],
@@ -68,6 +100,7 @@ export const useCoin = defineStore("coinGecko", () => {
   };
   return {
     loading,
+    latestValues,
     latestPrices,
     latestMktPrices,
     latestVolumePrices,

@@ -4,13 +4,18 @@
     <no-currency-selected-component
       v-else-if="store.latestPrices.length === 0"
     ></no-currency-selected-component>
-    <apexchart
-      v-else
-      type="line"
-      :options="options"
-      :series="series"
-      :key="series[0].data.length"
-    ></apexchart>
+    <v-container v-else>
+      <apexchart
+        type="line"
+        :options="options"
+        :series="series"
+        :key="series[0].data.length"
+      ></apexchart>
+      <p>
+        Último valor: {{ store.latestValues.prices.price }} em
+        {{ store.latestValues.prices.time }}
+      </p>
+    </v-container>
   </v-container>
 </template>
 
@@ -67,8 +72,6 @@ const series = ref([
 watch(
   () => store.latestPrices,
   async (newCoin) => {
-    console.log(newCoin);
-
     if (newCoin.length === 0) return;
 
     series.value = [
