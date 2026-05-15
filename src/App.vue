@@ -1,9 +1,16 @@
 <template>
   <v-app>
-    <v-main class="d-flex">
+    <v-navigation-drawer v-model="drawer">
       <menu-component></menu-component>
-      <v-container class="pa-0 mr-0">
-        <header-component></header-component>
+    </v-navigation-drawer>
+
+    <v-app-bar flat border="b">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <header-component></header-component>
+    </v-app-bar>
+
+    <v-main class="d-flex">
+      <v-container fluid class="pa-0 mr-0">
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -11,6 +18,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import HeaderComponent from "./shared/components/HeaderComponent.vue";
 import MenuComponent from "./shared/components/MenuComponent.vue";
+
+const drawer = ref(true);
 </script>

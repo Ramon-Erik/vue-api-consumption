@@ -1,7 +1,7 @@
 <template>
   <v-container
     class="d-flex justify-center align-center"
-    style="min-height: 350px"
+    style="min-height: 250px"
   >
     <div class="text-center">
       <div class="ma-auto" style="max-width: 180px">

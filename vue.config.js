@@ -6,7 +6,7 @@ module.exports = defineConfig({
   pages: {
     index: {
       entry: "src/main.ts",
-      title: "Fake Store Consumption",
+      title: "API Consumption",
     },
   },
 

@@ -1,11 +1,7 @@
 <template>
-  <v-list
-    density="compact"
-    class="border-e-md"
-    style="max-width: 300px; width: 100%"
-  >
+  <v-list density="compact" nav>
     <v-list-subheader>
-      <h1 class="mt-4 mb-5">Cosmobit</h1>
+      <h1 class="mt-4 mb-5">Cripto</h1>
     </v-list-subheader>
 
     <v-list-item
