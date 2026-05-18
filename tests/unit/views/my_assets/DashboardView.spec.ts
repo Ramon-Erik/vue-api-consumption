@@ -25,6 +25,7 @@ const mockedCoinApi = coinApi as jest.Mocked<typeof coinApi>;
 describe("My Assets View", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+    jest.clearAllMocks();
   });
 
   const mountComponent = () => {
@@ -91,5 +92,23 @@ describe("My Assets View", () => {
     await select.vm.$emit("update:modelValue", "bitcoin");
 
     expect(mockedCoinApi.get).toHaveBeenCalled();
+  });
+
+  it("should not call api when selected a fake coin", async () => {
+    mockedCoinApi.get.mockResolvedValue({
+      data: {
+        prices: [[1715788800000, 400000]],
+        market_caps: [[1715788800000, 8000000000]],
+        total_volumes: [[1715788800000, 8000000000]],
+      },
+    });
+
+    const wrapper = mountComponent();
+
+    const select = wrapper.findComponent({ name: "VSelect" });
+
+    await select.vm.$emit("update:modelValue", "");
+
+    expect(mockedCoinApi.get).not.toHaveBeenCalled();
   });
 });
