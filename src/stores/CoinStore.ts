@@ -35,7 +35,7 @@ export const useCoin = defineStore("coinGecko", () => {
       const response = await coinApi.get(`/${id}/market_chart`, { params });
       updateWithResponseValues(response.data);
     } catch (error) {
-      console.error("esse id não existe");
+      console.error("esse id não existe", id, error);
       updateWithResponseValues({
         market_caps: [],
         prices: [],

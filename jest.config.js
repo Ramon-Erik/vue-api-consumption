@@ -5,4 +5,5 @@ module.exports = {
   },
   transformIgnorePatterns: ["node_modules/(?!(vuetify|@mdi|@vueuse))"],
   moduleFileExtensions: ["js", "ts", "json", "vue", "mjs"],
+  coverageProvider: "v8",
 };

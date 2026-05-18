@@ -32,6 +32,8 @@ describe("useCoin", () => {
           [1778432448799, 399642.323101596],
           [1778436033629, 400228.985148019],
         ],
+        market_caps: [[1715788800000, 8000000000]],
+        total_volumes: [[1715788800000, 8000000000]],
       },
     };
     mockedCoinApi.get.mockResolvedValue(mockedData);
