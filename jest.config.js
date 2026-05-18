@@ -10,6 +10,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.{ts,vue}",
+    "!src/plugins/**",
     "!src/**/*.d.ts",
     "!src/main.ts",
     "!src/router/index.ts",
