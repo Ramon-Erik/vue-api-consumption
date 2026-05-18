@@ -27,6 +27,13 @@ import LoadingComponent from "./LoadingComponent.vue";
 
 const store = useCoin();
 
+const formatter = (val: number) => {
+  if (val >= 1e12) return `R$ ${(val / 1e12).toFixed(2)}T`; // Trilhões
+  if (val >= 1e9) return `R$ ${(val / 1e9).toFixed(2)}B`; // Bilhões
+  if (val >= 1e6) return `R$ ${(val / 1e6).toFixed(2)}M`; // Milhões
+  return `R$ ${val.toLocaleString("pt-BR")}`;
+};
+
 const options = ref({
   chart: {
     id: "prices",
@@ -45,12 +52,7 @@ const options = ref({
   },
   yaxis: {
     labels: {
-      formatter: (val: number) => {
-        if (val >= 1e12) return `R$ ${(val / 1e12).toFixed(2)}T`; // Trilhões
-        if (val >= 1e9) return `R$ ${(val / 1e9).toFixed(2)}B`; // Bilhões
-        if (val >= 1e6) return `R$ ${(val / 1e6).toFixed(2)}M`; // Milhões
-        return `R$ ${val.toLocaleString("pt-BR")}`;
-      },
+      formatter,
     },
   },
   stroke: {

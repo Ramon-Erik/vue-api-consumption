@@ -1,6 +1,5 @@
 import { createPinia, setActivePinia } from "pinia";
-import { coinApi } from "@/services/api";
-import { flushPromises, mount } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import PriceGraphComponent from "@/views/my_assets/components/PriceGraphComponent.vue";
 import * as components from "vuetify/dist/vuetify";
 import * as directives from "vuetify/dist/vuetify";
@@ -15,14 +14,6 @@ const vuetify = createVuetify({
 });
 
 globalThis.ResizeObserver = require("resize-observer-polyfill");
-
-jest.mock("@/services/api", () => ({
-  coinApi: {
-    get: jest.fn(),
-  },
-}));
-
-const mockedApi = coinApi as jest.Mocked<typeof coinApi>;
 
 describe("Price Graph Component", () => {
   const mountComponent = () => {
@@ -100,5 +91,40 @@ describe("Price Graph Component", () => {
 
     expect(noCurrencyComponent.exists()).toBe(false);
     expect(loadingComponent.exists()).toBe(false);
+  });
+
+  it("should format coins across all numeric scales", () => {
+    const wrapper = mountComponent();
+    const formatter = wrapper.vm.formatter;
+
+    expect(formatter(2000000000000)).toBe("R$ 2.00T");
+    expect(formatter(8000000000)).toBe("R$ 8.00B");
+    expect(formatter(5000000)).toBe("R$ 5.00M");
+    expect(formatter(450)).toBe("R$ 450");
+  });
+
+  it("should update series data when store has prices", async () => {
+    const store = useCoin();
+    store.latestPrices = [{ x: 1715788800000, y: 500000 }];
+
+    const wrapper = mountComponent();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.series[0].data).toHaveLength(1);
+    expect(wrapper.vm.series[0].data[0].y).toBe(500000);
+  });
+
+  it("should stop execution in watch if latestPrices is empty", async () => {
+    const store = useCoin();
+
+    store.latestPrices = [{ x: 1, y: 1 }];
+
+    const wrapper = mountComponent();
+    await wrapper.vm.$nextTick();
+
+    store.latestPrices = [];
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.series[0].data).toHaveLength(1);
   });
 });
