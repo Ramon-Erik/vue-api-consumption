@@ -1,4 +1,4 @@
-import MyAssetsView from "@/views/my_assets/MyAssetsView.vue";
+import Dashboard from "@/views/my_assets/Dashboard.vue";
 import { mount } from "@vue/test-utils";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/dist/vuetify.js";
@@ -13,7 +13,7 @@ globalThis.ResizeObserver = require("resize-observer-polyfill");
 
 describe("My Assets View", () => {
   const mountComponent = () => {
-    return mount(MyAssetsView, {
+    return mount(Dashboard, {
       global: {
         plugins: [vuetify],
         stubs: {

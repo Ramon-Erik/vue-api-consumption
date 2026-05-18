@@ -6,6 +6,8 @@ import * as components from "vuetify/dist/vuetify";
 import * as directives from "vuetify/dist/vuetify";
 import { createVuetify } from "vuetify";
 import { useCoin } from "@/stores/CoinStore";
+import NoCurrencySelectedComponent from "@/views/my_assets/components/NoCurrencySelectedComponent.vue";
+import LoadingComponent from "@/views/my_assets/components/LoadingComponent.vue";
 
 const vuetify = createVuetify({
   components,
@@ -45,54 +47,58 @@ describe("Price Graph Component", () => {
   it("should start with no currency component", () => {
     const wrapper = mountComponent();
 
-    const noCurrencyComponent = wrapper.find('[data-test-id="noCurrency"]');
-    const loadingComponent = wrapper.find(".v-progress-circular");
-    const apexxhartComponent = wrapper.find("apexchart-stub");
+    const noCurrencyComponent = wrapper.findComponent(
+      NoCurrencySelectedComponent
+    );
+    const loadingComponent = wrapper.findComponent(LoadingComponent);
+    const apexchartComponent = wrapper.find("apexchart-stub");
 
     expect(noCurrencyComponent.exists()).toBe(true);
     expect(noCurrencyComponent.isVisible()).toBe(true);
 
     expect(loadingComponent.exists()).toBe(false);
-    expect(apexxhartComponent.exists()).toBe(false);
+    expect(apexchartComponent.exists()).toBe(false);
   });
 
-  it("when loading should show progress-circular component", async () => {
-    const wrapper = mountComponent();
+  it("when loading should show loading component", async () => {
     const store = useCoin();
 
     store.loading = true;
 
+    const wrapper = mountComponent();
     await wrapper.vm.$nextTick();
 
-    console.log(wrapper.html(), store.loading);
-    const noCurrencyComponent = wrapper.find('[data-test-id="noCurrency"]');
-    const loadingComponent = wrapper.find(".v-progress-circular");
-    const apexxhartComponent = wrapper.find("apexchart-stub");
+    const noCurrencyComponent = wrapper.findComponent(
+      NoCurrencySelectedComponent
+    );
+    const loadingComponent = wrapper.findComponent(LoadingComponent);
+    const apexchartComponent = wrapper.find("apexchart-stub");
 
     expect(loadingComponent.exists()).toBe(true);
     expect(loadingComponent.isVisible()).toBe(true);
 
     expect(noCurrencyComponent.exists()).toBe(false);
-    expect(apexxhartComponent.exists()).toBe(false);
+    expect(apexchartComponent.exists()).toBe(false);
   });
 
   it("after a request should show apexchart component", async () => {
-    const wrapper = mountComponent();
     const store = useCoin();
 
-    store.loading = true;
+    store.latestPrices = [{ x: 0, y: 0 }];
 
+    const wrapper = mountComponent();
     await wrapper.vm.$nextTick();
 
-    console.log(wrapper.html(), store.loading);
-    const noCurrencyComponent = wrapper.find('[data-test-id="noCurrency"]');
-    const loadingComponent = wrapper.find(".v-progress-circular");
-    const apexxhartComponent = wrapper.find("apexchart-stub");
+    const noCurrencyComponent = wrapper.findComponent(
+      NoCurrencySelectedComponent
+    );
+    const loadingComponent = wrapper.findComponent(LoadingComponent);
+    const apexchartComponent = wrapper.find("apexchart-stub");
 
-    expect(loadingComponent.exists()).toBe(true);
-    expect(loadingComponent.isVisible()).toBe(true);
+    expect(apexchartComponent.exists()).toBe(true);
+    expect(apexchartComponent.isVisible()).toBe(true);
 
     expect(noCurrencyComponent.exists()).toBe(false);
-    expect(apexxhartComponent.exists()).toBe(false);
+    expect(loadingComponent.exists()).toBe(false);
   });
 });
